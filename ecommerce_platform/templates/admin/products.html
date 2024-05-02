@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %} {{category.category_name}} {% endblock %}
+
+{% block content %}
+    <div class="container mt-5 Admin-view">
+        <div class="action text-center">
+            <a href="{% url 'admin-panel' admin %}"> 
+                <img src="/media/icons/return-svgrepo-com.svg">
+                Return to Panel 
+            </a>
+        </div>
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-10">
+                    <div class="ml-3">
+                        <h4> Category: {{category.category_name}} </h4>
+                    </div>
+                </div>
+                <div class="col text-center action">
+                    <a href="{% url 'admin-panel-product-add' category.category_name %}"> 
+                        <img src="/media/icons/addition-color-icon.svg">
+                        Add product 
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if recent_product %}
+            <div class="container" style="background-color: pink;">
+                <div class="row">
+                    <div class="col-11">
+                        <p class="productAddStatus"> Product {{recent_product.product_name}} added to Category {{recent_product.category.category_name}} </p>
+                    </div>
+                    <div class="col text-end">
+                        <span>  
+                            <button onClick="remove()" style="background-color: pink; border: None;"> x </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if products %}
+            <div class="container text-center mt-5">
+                <div class="row row-cols-3 g-2">
+                    {% for product in products %}
+                        <div class="col product-items-display">
+                            <div class="p-3">
+                                {% thumbnail product.image 200x200 upscale as img %}
+                                <a href="{% url 'admin-panel-product-detail' product.id %}">
+                                    <img src="{{img.url}}" width="{{img.width}}" height="{{img.height}}">
+                                </a>
+                            </div>
+                            <div class="text-center product-name"> {{product.product_name}} </div>
+                                {% comment %} add/edit product specs {% endcomment %}
+                                {% comment %} <div style="display: flex; justify-content: space-between;">
+                                    <div style="text-align: center;"> 
+                                        <a href="{% url 'admin-panel-product-specs' product.category product.id %}">
+                                            Add Specs 
+                                        </a>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <a href="{% url 'admin-panel-product-specs-add' product.category product.id %}">
+                                            Edit Specs 
+                                        </a>
+                                    </div>
+                                </div> {% endcomment %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="text-center mt-5"> 
+                No products for this category 
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

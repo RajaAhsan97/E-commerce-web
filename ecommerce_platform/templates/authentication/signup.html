@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+    <div class="container-fluid col-md-5 p-5 mt-5 signup">
+        <div class="text-center p-3 signup-head">
+            <h3> Register </h3>
+        </div>
+
+                
+        {% if error_msg %}
+            <div class="text-center mt-2 signup-error">
+                <li> <em> {{error_msg}} </em> </li>
+            </div>
+        {% endif %}
+        <form method='post'>
+            {% for field in form %}
+            <div class="text-center">
+                {{field.label_tag}} <br>
+                {{field}} <br><br>
+            </div>
+            {% endfor %}
+            <div class="text-center p-3 signup-submit">
+                <input type="submit" value="SignUp" class="btn btn-success">
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}

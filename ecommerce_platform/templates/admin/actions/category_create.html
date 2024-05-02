@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+    <div class="container col-md-3 p-5 mt-5 create-category">
+        <div class="text-center mb-4">
+            <h3> Create New Category </h3>
+        </div>
+        <form enctype="multipart/form-data" method="post">
+            {% for field in form %}
+                <strong> {{field.label_tag}} <strong> <br> 
+                {{field}} <br><br>
+            {% endfor %}
+            <div class="text-center">
+                <input type="submit" value="Create Category" class="btn btn-primary">
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %} {{admin}} {% endblock %}
+
+{% block content %}
+    <div class="container Admin-view">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-10">
+                    <h1> welcome to admin panel </h1>
+                </div>
+                <div class="col text-center action">
+                    <a href="{% url 'category-create' %}"> 
+                        <img src="/media/icons/addition-color-icon.svg">
+                        Create Category 
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if recent_category %}
+            <div class="container" style="background-color: pink;">
+                <div class="row">
+                    <div class="col-11">
+                        <p> Category: <bold> {{recent_category}} </bold> created successfully </p>
+                    </div>
+                    <div class="col">
+                        <span>
+                            <button style="background-color: pink; border: None;"> x </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div>
+            {% if categories %}
+                <h4> Listing all added categories </h4>
+                <div class="container text-center mt-5">
+                    <div class="row row-cols-3 g-2">
+                        {% for category in categories %}
+                            <div class="col category-items-display">
+                                <div>
+                                    {% thumbnail category.image 200x200 upscale as img%}
+                                    <a href="{% url 'admin-panel-products' category.category_name %}">
+                                        <img src="{{img.url}}" width="{{img.width}}" height="{{img.height}}">
+                                    </a>
+                                </div>
+                                <div class="text-center category-name"> {{category.category_name}} </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <li> No created categories </li>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

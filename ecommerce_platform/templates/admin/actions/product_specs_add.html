@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+    <div class="container col-md-6 mt-5 p-5 create-product-specs">
+        <div class="text-start mb-4">
+            <h3> Product: {{product.product_name}} specifications </h3>
+        </div>
+        <div class="text-center product-specs-add-btn">
+            <button id="add-more"> 
+                <img src="/media/icons/addition-color-icon.svg"> Create Specification 
+            </button> 
+        </div>
+        <form method='post'>
+            {{formset.management_data}}
+            <div id="form_set">
+                <div style="display: None;">
+                    {{formset.as_p}}
+                </div>
+                <div class="container mt-4">
+                    <div class="row row-cols-2">
+                        <div class="col-6 text-center spec-heading-1">
+                            <strong> {{formset.empty_form.spec_type.label}} </strong>
+                        </div>
+                        <div class="col-6 text-center spec-heading-2"> 
+                            <strong> {{formset.empty_form.spec_value.label}} </strong>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div id="empty-form" class="container" style="display: None;">
+                <div class="row row-cols-2 mt-3">
+                    <div class="col-6 text-center">
+                        {{formset.empty_form.spec_type}} 
+                    </div>
+                    <div class="col-6 text-center">
+                        {{formset.empty_form.spec_value}}
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <input type="submit" value="Add Spec" class="btn btn-primary">
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}
+{% comment %} 
+<div id="form_set">
+    {% for form in formset.forms %}
+        {% if forloop.counter0 == 0%}
+            {{form.product.label}}: {{form.product}}
+        {% endif %}
+        <br>
+        {{form.spec_type.label}}: {{form.spec_type}} 
+        {{form.spec_value.label}}: {{form.spec_value}}
+    {% endfor %}
+</div>
+<input type="button" value="Add More" id="add-more">
+
+<div id="empty-form" style="display: None;">
+    <br>
+    {{formset.empty_form.spec_type.label}}: {{formset.empty_form.spec_type}}
+    {{formset.empty_form.spec_value.label}}: {{formset.empty_form.spec_value}}
+</div>
+<br> {% endcomment %}

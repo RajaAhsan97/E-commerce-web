@@ -1,0 +1,88 @@
+
+
+.Admin-view .action a {
+    text-decoration: None;
+    border: None;
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: bold;
+    color: rgb(34, 30, 30);
+    background-image: linear-gradient(to bottom right, rgb(100, 214, 100), rgb(220, 248, 220))
+}
+
+.Admin-view .category-items-display, .Admin-view .product-items-display {
+    border: 1px solid gray; 
+    border-radius: 30px;
+    background-image: radial-gradient(circle, rgb(69, 145, 69), rgb(115, 160, 115) , rgb(231, 233, 231));
+}
+
+.Admin-view .category-items-display > .category-name, .Admin-view .product-items-display > .product-name {
+    font-weight: bold;
+    font-size: 18px;   
+}
+
+.Admin-view .product-specs {
+    border: 1px solid  rgb(233, 227, 227);
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: rgb(233, 227, 227);
+}
+
+.Admin-view .product-specs .product-specs-show {
+    display: flex; 
+    justify-content:space-around;
+}
+
+.Admin-view .product-specs .product-specs-show .spec-type, .Admin-view .product-specs .product-specs-show .spec-value {
+    font-style: bold;
+    font-size: 20px;
+}
+
+.create-category, .create-product, .create-product-specs {
+    margin: auto;
+    border-radius: 30px;
+    background-image: radial-gradient(circle, rgb(69, 145, 69), rgb(115, 160, 115) , rgb(231, 233, 231))
+}
+
+.create-product-specs .product-specs-add-btn button {
+    padding: 5px;
+    border: None;
+    border-radius: 10px;
+    color: black;
+    font-weight: bold;
+    background-image: linear-gradient(to bottom right, rgb(100, 214, 100), rgb(220, 248, 220));
+}
+
+.create-product-specs .spec-heading-1 {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: pink;
+}
+
+.create-product-specs .spec-heading-2 {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: yellow; 
+}
+
+.signup, .login{
+    margin: auto;
+    border-radius: 30px;
+}
+
+.login .login-error, .signup .signup-error {
+    background-color: rgb(255, 165, 192);
+    border-radius: 10px;
+}
+
+.signup .signup-head, .login .login-head {
+    background-color: dodgerblue;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.signup .signup-submit, .login .login-submit {
+    background-color: dodgerblue;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

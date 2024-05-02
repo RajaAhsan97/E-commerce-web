@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %} {{category}}-{{product.product_name}} {% endblock %}
+
+{% block content %}
+    <div class="container mt-5 Admin-view">
+        <div class="action text-center">
+            <a href="{% url 'admin-panel-products' category %}"> 
+                <img src="/media/icons/return-svgrepo-com.svg">
+                Return to Products 
+            </a>
+        </div>
+
+        <div class="container-fluid text-center mt-5"> 
+            <h3> Product Category: {{category}} </h3>
+        </div>
+
+        <div class="container-fluid mt-5">
+            <div class="row row-cols-2">
+                <div class="col-4 text-center" style="border: 1px solid gray;">
+                    <div class="container-fluid text-start">
+                        <h5> Product:  {{product.product_name}} </h5>
+                    </div>
+                    <div class="container-fluid mt-3">
+                        {% thumbnail product.image 200x200 as img %}
+                        <img src="{{img.url}}" width="{{img.width}}" height="{{img.height}}">
+                    </div>
+                </div>
+                <div class="col-8 product-specs">
+                    <div class="container-fluid text-center">
+                            <h5> Specifications: </h5>
+                    </div>
+                    <div class="action text-end">
+                        <a href="{% url 'admin-panel-product-specs' category product.id %}"> 
+                            <img src="/media/icons/addition-color-icon.svg">
+                            Add Specs 
+                        </a>
+                    </div>
+                    <div class="container-fluid mt-3">
+                        {% for spec in specs %}
+                            <div class="container-fluid product-specs-show">
+                                <div>
+                                    {{spec.spec_type}} :
+                                </div>
+                                <div class="spec-value">
+                                    {{spec.spec_value}}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="container-fluid">
+                                <div class="text-center action">
+                                    <a href="{% url 'admin-panel-product-specs' category product.id %}"> 
+                                        <img src="/media/icons/addition-color-icon.svg">
+                                        Add Specs 
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% comment %} {% if specs %}
+                        <div class="action">
+                            <a href="{% url 'admin-panel-product-specs' category product.id %}"> 
+                                <img src="/media/icons/addition-color-icon.svg">
+                                Add Specs 
+                            </a>
+                        </div>
+                    {% endif %} {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
