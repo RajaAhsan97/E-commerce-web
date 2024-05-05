@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if msg %}
+            <h3> {{msg}} </h3>
+            <a href="{% url 'signup' %}"> Sign-up </a>
+        {% else %}
+            <form method="post">
+                {% for field in form %}
+                    {{field.label_tag}} <br>
+                    {{field}} <br><br>
+                {% endfor %}
+                {% csrf_token %}
+                <input type="submit" value="Create cart" class="btn btn-success">
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

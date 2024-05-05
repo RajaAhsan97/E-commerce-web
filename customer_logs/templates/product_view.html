@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %} {{category}} {% endblock %}
+
+{% block content %}
+
+    <div class="visitors-view">
+        <div class="action text-center mt-5">
+            <a href="{% url 'home' %}"> 
+                <img src="/media/icons/return-svgrepo-com.svg">    
+                Return to home page 
+            </a>
+        </div>
+
+        <div class= "container mt-4">
+            <div class="row gy-3">
+                {% for product in products %}
+                <div class="col-3 products">
+                    <div class="product-grid">
+                        <div class="text-center">
+                            {% thumbnail product.image 150x150 as img %}
+                            <a href="{% url 'visitors_view:product-detail-view' product.id %}">
+                                <img src="{{img.url}}" width="{{img.width}}" height="{{img.height}}">
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            {{product.product_name}}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

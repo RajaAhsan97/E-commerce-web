@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load index %}
+{% block title %}  {% endblock %}
+
+{% block content %}
+    <div class="container text-center mt-5 cart">
+        <div class="row row-cols-5" style="border-radius: 20px; background-color: dodgerblue;">
+            <div class="col" style="border-right:1px solid black;">
+                <h5> Product </h5>
+            </div>
+            <div class="col" style="border-right:1px solid black;"> 
+                <h5> Quantity </h5>
+            </div>
+            <div class="col" style="border-right:1px solid black;"> 
+                <h5> Unit Price </h5>
+            </div>
+            <div class="col" style="border-right:1px solid black;">
+                <h5> Remove cart </h5>
+            </div>
+            <div class="col">
+                <h5> Total Price </h5>
+            </div>
+        </div>
+        
+        {% for product in products %}
+        {% with p=products_cart|index:forloop.counter0 %}
+        {% with count=forloop.counter0|stringformat:"s" %}
+        <div class="row row-cols-5 mt-3 p-3">
+            {% with prod="product-"|add:count %}
+            <div class="col {{prod}}" style="border-bottom:1px solid black;">
+                {{product.product_name}}
+            </div>
+            {% endwith %}
+            <div class="col" style="border-bottom:1px solid black;">
+                <div class="row">
+                    {% with quantity="quantity-"|add:count %}
+                    <div class="col-3 text-center {{quantity}}" style="border: 1px solid black; border-radius: 10px;">
+                        {{p.quantity}}
+                    </div>
+                    {% endwith %}
+                    <div class="col-1">
+                        {% with incr_quantity="increment-quantity-"|add:count %}
+                        <div>
+                            <button class="{{incr_quantity}}" style="border: none;">
+                                <img src="/media/icons/arrow-top-direction-green-icon.svg">
+                            </button>
+                        </div> 
+                        {% endwith %}
+                        {% with decr_quantity="decrement-quantity-"|add:count %}
+                        <div>
+                            <button class="{{decr_quantity}}" style="border: none;">
+                                <img src="/media/icons/arrow-bottom-direction-red-icon.svg">
+                            </button>
+                        </div> 
+                        {% endwith %}
+                    </div>
+                    {% with update_qty="update-quantity-"|add:count %}
+                    <div class="col-1">
+                        <button class="{{update_qty}}" style="border: none;">
+                            Update
+                        </button>
+                    </div>
+                    {% endwith %}
+                </div>
+                {% with qty_msg="quantity-message-"|add:count %}
+                <div class="{{qty_msg}} mt-1" style="background-color: pink; font-size:12px; font-style: italic; border-radius: 10px;"> </div>
+                {% endwith %}
+            </div>
+            {% with unit_price="unit-price-"|add:count %}
+            <div class="col {{unit_price}}" style="border-bottom:1px solid black;">
+                {{p.unit_price}}
+            </div>
+            {% endwith %}
+            <div class="col" style="border-bottom:1px solid black;">
+                <a href="{% url 'visitors_view:remove-cart' p.product %}">
+                    <img src="/media/icons/cart-remove-svgrepo-com.svg">
+                </a>
+            </div>
+            {% with tot_price="total-price-"|add:count %}
+            <div class="col {{tot_price}}" style="border-bottom:1px solid black;">
+                {{p.total_price}}
+            </div>
+            {% endwith %}
+        </div>
+        {% endwith %}
+        {% endwith %}
+        {% endfor %} 
+    </div>
+
+    <div class="container text-end mt-2 checkout">
+        <a href="">
+            Checkout
+        </a>
+    </div>
+{% endblock %}

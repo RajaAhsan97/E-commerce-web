@@ -1,6 +1,38 @@
+/* home page styling ans actions */
+.bg-image {
+    background-image: url("/static/images/ecommerce-2140603_640.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 20px;
+    height: 70%;
+    width: 100%;
+}
 
+.home-page>.categories, .products {
+    height: 200px;
+}
 
-.Admin-view .action a {
+.home-page .categories > .categories-grid, .products > .product-grid {
+    border-radius: 30px; 
+    background-color: rgb(230, 229, 229); 
+    height: 200px;
+}
+
+.categories-grid>hr {
+    background-color: red; 
+    height: 10px;
+    border: none;
+}
+
+.categories-grid h4 {
+    font-weight: bold;
+    font-style: italic;
+    color: rgb(140, 140, 214);   
+}
+
+/* Admin panel styling and actions */
+.Admin-view .action a, .visitors-view .action a {
     text-decoration: None;
     border: None;
     padding: 5px;
@@ -8,6 +40,16 @@
     font-weight: bold;
     color: rgb(34, 30, 30);
     background-image: linear-gradient(to bottom right, rgb(100, 214, 100), rgb(220, 248, 220))
+}
+
+.Admin-view .action-delete a{
+    text-decoration: None;
+    border: None;
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: bold;
+    color: rgb(34, 30, 30);
+    background-image: linear-gradient(to bottom right, rgb(252, 82, 82), rgb(255, 177, 177))
 }
 
 .Admin-view .category-items-display, .Admin-view .product-items-display {
@@ -85,4 +127,14 @@
     background-color: dodgerblue;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+/* Admin panel styling and actions {END} */
+
+.checkout>a {
+    text-decoration: none;
+    border: none;
+    background-color: dodgerblue;
+    border-radius: 20px;
+    padding: 10px;
+    color: black;
 }

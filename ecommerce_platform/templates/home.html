@@ -1,7 +1,37 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
 
 {% block title %} {% endblock %}
 
 {% block content %}
-    <h1> Home page </h1> 
+    <div class="container bg-image">
+        <div class="text-center" style="margin: auto;">
+            <h3> E-commerce platform </h3>
+        </div>
+    </div>
+
+    <div class="container mt-4 home-page">
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-3 categories">
+                <div class="categories-grid">
+                    <div style="height: 20px"> </div>
+                    <hr> </hr>
+                    <div class="text-center">
+                        <h4> {{category.category_name}} </h4>
+                    </div>
+                    <div class="text-center">
+                        {% thumbnail category.image 100x0 as img %}
+                        <a href="{% url 'visitors_view:products-view' category.id %}">
+                            <img src="{{img.url}}" width="{{img.width}}" height="{{img.height}}">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
 {% endblock %}

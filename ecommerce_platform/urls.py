@@ -10,7 +10,8 @@ urlpatterns = [
     path('admin/products/<int:product_id>', views.ProductDetails, name='admin-panel-product-detail'),
     path('admin/products/add-product/<category_name>/', views.ProductAdd, name='admin-panel-product-add'),
     path('admin/product-category/product/<product_category>/<int:product_id>', views.ProductSpecs, name='admin-panel-product-specs'),
-    # path('admin/product-category/product/<product_category>/<int:product_id>', views.ProductSpecsAdd, name='admin-panel-product-specs-add'),
+    path('admin/delete-category/<int:category_id>/', views.DeleteCategory, name="delete-category"),
+    path('admin/delete-product/<int:product_id>', views.DeleteProduct, name='delete-product'),
 
     path('signup/', views.RegistrationView, name='signup'),
     path('login/', views.LoginView, name='login'),

@@ -24,7 +24,7 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
@@ -79,18 +79,9 @@
           </div>
 
           {% comment %} JS {% endcomment %}
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
           <script>
-              {% comment %} var cancel_btn = document.getElementById("removeStatus");
-              console.log(cancel_btn.text)
-              cancel_btn.addEventListener('click', remove);
-              var status_box = document.getElementByClassName('productAddStatus'); {% endcomment %}
-
-              {% comment %} function remove() {
-                console.log("clicked");
-                var element = document.getElementByClassName('productAddStatus');
-                element.remove();
-              } {% endcomment %}
-
               $('#add-more').click(function() {
                 console.log("clicked");
                 var idx = $('#id_form-TOTAL_FORMS').val();
@@ -98,6 +89,93 @@
                 $('#form_set').append($('#empty-form').html().replace(/__prefix__/g, idx));
                 $('#id_form-TOTAL_FORMS').val(parseInt(idx) + 1);
               });
+
+              $('.add-remove-btn').click(function() {
+                var cart_count = $('.show-cart').html();
+                /* toggle add and remove cart icon and also increment and decrement cart count 
+                   based on last count state */
+                if (cart_count == 0) {
+                  $('.show-cart').html(parseInt(cart_count)+1);
+                  $('.add-remove-image').attr("src", "/media/icons/subtract-color-icon.svg");
+                }
+                else {
+                  $('.show-cart').html(parseInt(cart_count)-1);
+                  $('.add-remove-image').attr("src", "/media/icons/addition-color-icon.svg");
+                }
+              });
+
+              $('.cart button').click(function() {
+                var cartProductsIdxClass = $(this).attr("class");
+                var charCount = cartProductsIdxClass.length-1;
+
+                var cartQuantityAction = cartProductsIdxClass.slice(0, charCount-1);
+
+                var quantity = ".quantity-";
+                var quantityCountClass = quantity.concat(cartProductsIdxClass[charCount]);
+        
+                var quantityMsg = ".quantity-message-";
+                var quantityMsgClass = quantityMsg.concat(cartProductsIdxClass[charCount]);
+
+                var unitPrice = ".unit-price-";
+                var unitPriceClass = unitPrice.concat(cartProductsIdxClass[charCount]);
+
+                var totalPrice = ".total-price-";
+                var totalPriceClass = totalPrice.concat(cartProductsIdxClass[charCount]);
+
+
+                if (cartQuantityAction === "increment-quantity") {
+                  console.log("increment");
+                  var qty = $(quantityCountClass).html();
+                  var qtyIncr = parseInt(qty) + 1;
+
+                  var prodUnitPrice = $(unitPriceClass).html();
+
+                  if (qtyIncr > 1) {
+                    $(quantityMsgClass).html('');
+                  }
+                  $(quantityCountClass).html(qtyIncr);
+                  $(totalPriceClass).html(parseInt(prodUnitPrice) * qtyIncr);                 
+                }
+                else if (cartQuantityAction === "decrement-quantity") {
+                  console.log("decrement");
+                  var qty = $(quantityCountClass).html();
+                  var qtyDecr = parseInt(qty) - 1;
+
+                  var prodUnitPrice = $(unitPriceClass).html();
+                  if (qtyDecr <= 0) {
+                    qtyDecr = 1;
+                    $(totalPriceClass).html(parseInt(prodUnitPrice) * qtyDecr);
+                    $(quantityMsgClass).html('minimum quantity must be 1');
+                  } 
+                  $(quantityCountClass).html(qtyDecr);
+                  $(totalPriceClass).html(parseInt(prodUnitPrice) * qtyDecr);
+                }
+                if (cartQuantityAction === "update-quantity") {
+                  console.log("update quantity...", cartProductsIdxClass[charCount]);
+
+                  var product = ".product-";
+                  var productClass = product.concat(cartProductsIdxClass[charCount]);
+                  console.log($(productClass).text().trim());
+                  var data = {
+                    'product': $(productClass).text().trim(),
+                    'quantity': parseInt($(quantityCountClass).html()),
+                    'total_price': parseInt($(totalPriceClass).html()),
+                  };
+                  $.ajax({
+                      type: "POST",
+                      url: '{% url "visitors_view:cart-update" %}',
+                      data: data,
+                      headers: {'X-CSRFToken': $.cookie("csrftoken")},
+                      success: function() {
+                        console.log("success");
+                      },
+                      error: function() {
+                        console.log("error");
+                      },
+                  });
+                }
+              });
+
           </script>
     </body>
 </html>

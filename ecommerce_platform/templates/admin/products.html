@@ -55,6 +55,12 @@
                                 </a>
                             </div>
                             <div class="text-center product-name"> {{product.product_name}} </div>
+                            <div class="action-delete text-center">
+                                <a href="{% url 'delete-product' product.id %}"> 
+                                    <img src="/media/icons/icons8-delete-button.svg">
+                                    Delete Product
+                                </a>
+                            </div>                           
                                 {% comment %} add/edit product specs {% endcomment %}
                                 {% comment %} <div style="display: flex; justify-content: space-between;">
                                     <div style="text-align: center;"> 

@@ -7,7 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/5.0/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/5.0/ref/settings/
+https://docs.djangoproject.com/en/5.0/ref/settings/ 
 """
 
 from pathlib import Path
@@ -31,7 +31,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".vercel.app"]
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ecommerce_platform.apps.EcommercePlatformConfig',
+    'customer_logs.apps.CustomerLogsConfig',
     'easy_thumbnails'
 ]
 
@@ -131,3 +132,8 @@ MEDIA_ROOT = 'media/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# STRIPE PAYMENT
+STRIPE_PUBLISHABLE_KEY = os.environ['STRIPE_PUBLISHABLE_KEY']
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY'] 

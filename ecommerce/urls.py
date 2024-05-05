@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('Ecommerce-platform/', include('ecommerce_platform.urls')),
+
+    path('myecommerce/', include('customer_logs.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

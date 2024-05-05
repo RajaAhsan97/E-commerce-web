@@ -29,7 +29,7 @@ class ProductSpecifications(models.Model):
         return self.spec_type 
 
 # class Customer(models.Model):
-
+#     customer_name = models.CharField(max_length=100)
 
 
 # class CustomerProduct(models.Model):

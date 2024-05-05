@@ -6,8 +6,14 @@ from django.forms import formset_factory
 from .forms import RegisterationForm, LoginForm, ProductAddForm, CategoryCreateForm, ProductSpecsAddForm
 from .models import Category, Product, ProductSpecifications
 
+from customer_logs.models import Customer
+
 def homeView(request):
-    return render(request, 'home.html')
+    categories = Category.objects.all()
+    print("session: ", request.user)
+    admin_name = request.user.username
+    return render(request, 'home.html', {'admin': admin_name,
+                                         'categories': categories})
 
 def RegistrationView(request):
     msg = None
@@ -19,9 +25,13 @@ def RegistrationView(request):
             user.set_password(registerForm.cleaned_data['password'])
             user.save()
 
+            # save registered customer to customer model  
+            Customer.objects.create(customer_name=registerForm.cleaned_data['username'],
+                                    email=registerForm.cleaned_data['email'])
+
             return redirect('home')
         else:
-            msg = "Input valid data to sign-up"
+            msg = "User already exist or you have provided invalid data to sign-up"
     else:
         registerForm = RegisterationForm()
     return render(request, 'authentication/signup.html', {'form': registerForm, 'error_msg': msg})
@@ -52,7 +62,7 @@ def LoginView(request):
 def LogoutView(request):
     logout(request)
 
-    return render(request, 'home.html')
+    return redirect('home')
 
 def Admin(request, admin_name):
     categories = Category.objects.all()
@@ -89,6 +99,12 @@ def CreateCategory(request):
     return render(request, 'admin/actions/category_create.html', {'admin': admin_name, 
                                                                   'form': CategoryForm})
 
+def DeleteCategory(request, category_id):
+    Category.objects.get(pk=category_id).delete()
+    admin_name = request.user.username
+
+    return redirect('admin-panel', admin_name)
+
 def Products(request, category_name):
     category = Category.objects.get(category_name=category_name)
     category_products = category.category_product.all()
@@ -107,6 +123,13 @@ def Products(request, category_name):
                                                    'category': category,
                                                    'recent_product': recent_product,
                                                    'products': category_products})
+
+def DeleteProduct(request, product_id):
+    product = Product.objects.get(pk=product_id)
+    category = Category.objects.get(pk=product.category_id).category_name
+    product.delete()
+
+    return redirect('admin-panel-products', category)
 
 def ProductDetails(request, product_id):
     admin_name = request.user.username

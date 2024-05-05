@@ -48,6 +48,12 @@
                                     </a>
                                 </div>
                                 <div class="text-center category-name"> {{category.category_name}} </div>
+                                <div class="action-delete text-center">
+                                    <a href="{% url 'delete-category' category.id %}"> 
+                                        <img src="/media/icons/icons8-delete-button.svg">
+                                        Delete Category
+                                    </a>
+                                </div>
                             </div>
                         {% endfor %}
                     </div>
