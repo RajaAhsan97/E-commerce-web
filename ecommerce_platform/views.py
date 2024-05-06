@@ -12,7 +12,7 @@ def homeView(request):
     categories = Category.objects.all()
     print("session: ", request.user)
     admin_name = request.user.username
-    return render(request, 'home.html', {'admin': admin_name,
+    return render(request, 'ecommerce_platform/home.html', {'admin': admin_name,
                                          'categories': categories})
 
 def RegistrationView(request):
@@ -34,7 +34,7 @@ def RegistrationView(request):
             msg = "User already exist or you have provided invalid data to sign-up"
     else:
         registerForm = RegisterationForm()
-    return render(request, 'authentication/signup.html', {'form': registerForm, 'error_msg': msg})
+    return render(request, 'ecommerce_platform/authentication/signup.html', {'form': registerForm, 'error_msg': msg})
 
 def LoginView(request):
     msg = None
@@ -57,7 +57,7 @@ def LoginView(request):
                 msg = "Please sign-up first, to login"
     else:
         logForm = LoginForm()
-    return render(request, 'authentication/login.html', {'form': logForm, 'error_msg': msg})
+    return render(request, 'ecommerce_platform/authentication/login.html', {'form': logForm, 'error_msg': msg})
 
 def LogoutView(request):
     logout(request)
@@ -76,7 +76,7 @@ def Admin(request, admin_name):
         if time_diff.seconds < 7:
             recent_category = categories.last().category_name
 
-    return render(request, 'admin/admin_panel.html', {'admin': admin_name,
+    return render(request, 'ecommerce_platform/admin/admin_panel.html', {'admin': admin_name,
                                                       'recent_category': recent_category,
                                                       'categories': categories})
 
@@ -96,7 +96,7 @@ def CreateCategory(request):
     else:
         CategoryForm = CategoryCreateForm()
     
-    return render(request, 'admin/actions/category_create.html', {'admin': admin_name, 
+    return render(request, 'ecommerce_platform/admin/actions/category_create.html', {'admin': admin_name, 
                                                                   'form': CategoryForm})
 
 def DeleteCategory(request, category_id):
@@ -119,7 +119,7 @@ def Products(request, category_name):
             recent_product = category_products.last()
 
     admin_name = request.user.username
-    return render(request, 'admin/products.html', {'admin': admin_name,
+    return render(request, 'ecommerce_platform/admin/products.html', {'admin': admin_name,
                                                    'category': category,
                                                    'recent_product': recent_product,
                                                    'products': category_products})
@@ -141,7 +141,7 @@ def ProductDetails(request, product_id):
     print("Category:", category.category_name)
     print("Specs:", specs)
 
-    return render(request, 'admin/product_detail.html', {'category': category.category_name,
+    return render(request, 'ecommerce_platform/admin/product_detail.html', {'category': category.category_name,
                                                          'product': product,
                                                          'specs': specs,
                                                          'admin': admin_name})
@@ -163,7 +163,7 @@ def ProductAdd(request, category_name):
             'category': category_name
         }
         productForm = ProductAddForm(initial=data)
-    return render(request, 'admin/actions/product_add.html', {'admin': admin_name,
+    return render(request, 'ecommerce_platform/admin/actions/product_add.html', {'admin': admin_name,
                                                               'form': productForm})
 
 def ProductSpecs(request, product_category, product_id):
@@ -192,6 +192,6 @@ def ProductSpecs(request, product_category, product_id):
             'form-0-spec_value': 'value',
         }
         productSpecForm = SpecForm(data)
-    return render(request, 'admin/actions/product_specs_add.html', {'formset': productSpecForm,
+    return render(request, 'ecommerce_platform/admin/actions/product_specs_add.html', {'formset': productSpecForm,
                                                                     'product': product,
                                                                     'admin': admin_name})

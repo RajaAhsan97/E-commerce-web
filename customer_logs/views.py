@@ -16,7 +16,7 @@ def ProductView(request, category_id):
     
     admin_name = request.user.username
 
-    return render(request, "product_view.html", {'admin': admin_name,
+    return render(request, "customer_logs/product_view.html", {'admin': admin_name,
                                                  'products': products, 
                                                  'category': category.category_name})
 
@@ -27,7 +27,7 @@ def ProductDetail(request, product_id):
 
     admin_name = request.user.username
 
-    return render(request, 'product_detail.html', {'admin': admin_name, 
+    return render(request, 'customer_logs/product_detail.html', {'admin': admin_name, 
                                                    'product': product,
                                                    'specs': product_specs})
 
@@ -72,7 +72,7 @@ def CustomerDetailForm(request, product_name):
                 customer_regstr_msg = "please sign-up to purchase products..."
                 return render(request, 'cart/cart_form.html', {'msg': customer_regstr_msg})
 
-        return render(request, 'cart/cart_form.html', {'form': cartForm})
+        return render(request, 'customer_logs/cart/cart_form.html', {'form': cartForm})
 
 
 def CartDetail(request, customer_name):
@@ -85,7 +85,7 @@ def CartDetail(request, customer_name):
 
     print("cart-products: ", products_cart)
     print("products: ", products)
-    return render(request, "cart/cart_detail.html", {'cart': cart,
+    return render(request, "customer_logs/cart/cart_detail.html", {'cart': cart,
                                                      'products_cart': products_cart,
                                                      'products': products})
 
