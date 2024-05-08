@@ -4,6 +4,10 @@ urlpatterns = [
     path('', views.homeView, name='home'),
     # admin panel url
 
+    path('admin/customers-carts/', views.CustomersCart, name="customers-cart"),
+    path('admin/customers-carts/deliver-status/', views.DeliveryStatus, name="customer-cart-delivery-status"),
+    path('admin/print/customers-cart/.pdf', views.CustomersCartPDFPrint, name="customer-cart-pdf-print"),
+
     path('admin/create-category/', views.CreateCategory, name='category-create'),
     path('admin/<admin_name>/', views.Admin, name='admin-panel'),
     path('admin/products/<category_name>/', views.Products, name='admin-panel-products'),

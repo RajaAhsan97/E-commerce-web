@@ -22,11 +22,11 @@ class Product(models.Model):
 
 class ProductSpecifications(models.Model):
     product = models.ForeignKey(Product, related_name='specifications', on_delete=models.CASCADE)
-    spec_type = models.CharField(max_length=30)
-    spec_value = models.CharField(max_length=30)
+    spec_type = models.CharField(max_length=50)
+    spec_value = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.spec_type 
+        return self.spec_type
 
 # class Customer(models.Model):
 #     customer_name = models.CharField(max_length=100)

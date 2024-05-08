@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <!--<link rel="stylesheet" href="{% static 'css/customers_cart_pdf.css' %}">-->
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -52,11 +53,34 @@
                 <span class="navbar-text">
                     <ul class="navbar-nav">
                       {% if admin %}
-                        <li class="nav-item">
-                          <span> Logged in as: {{admin}} </span>
-                        </li>   
-                        <li class="nav-item">
-                          <a class="nav-link" href="{% url 'logout' %}"> Log-Out </a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% if admin == "admin" %}
+                                    <img src="/media/icons/administrator-developer-icon.svg">
+                                {% else %}
+                                    <img src="/media/icons/approved-profile-icon.svg">
+                                {% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right" data-bs-theme="dark">
+                              <li> <p> Logged in as: {{admin}} </p> </li>
+                              <li> <hr class="dropdown-divider">
+                                   <hr class="dropdown-divider">
+                              </li>
+                              <li>
+                                  {% if admin == "admin" %}
+                                    <a class="dropdown-item" href="{% url 'customers-cart' %}" style="color: white;">
+                                        View Customers Carts
+                                    </a>
+                                  {% else %}
+                                      <a class="dropdown-item" href="{% url 'visitors_view:cart-detail' admin %}" style="color: white;">
+                                          <img src="/media/icons/red-shopping-cart-10906.svg"> Your Carts
+                                      </a>
+                                  {% endif %}
+                              </li>
+                              <li><hr class="dropdown-divider" style="color: white;"></li>
+                              <li><a class="dropdown-item" href="{% url 'logout' %}" style="color: white;">Log-out</a></li>
+                            </ul>
                         </li>
                       {% else %}
                         <li class="nav-item">
@@ -92,7 +116,7 @@
 
               $('.add-remove-btn').click(function() {
                 var cart_count = $('.show-cart').html();
-                /* toggle add and remove cart icon and also increment and decrement cart count 
+                /* toggle add and remove cart icon and also increment and decrement cart count
                    based on last count state */
                 if (cart_count == 0) {
                   $('.show-cart').html(parseInt(cart_count)+1);
@@ -112,7 +136,7 @@
 
                 var quantity = ".quantity-";
                 var quantityCountClass = quantity.concat(cartProductsIdxClass[charCount]);
-        
+
                 var quantityMsg = ".quantity-message-";
                 var quantityMsgClass = quantityMsg.concat(cartProductsIdxClass[charCount]);
 
@@ -134,7 +158,7 @@
                     $(quantityMsgClass).html('');
                   }
                   $(quantityCountClass).html(qtyIncr);
-                  $(totalPriceClass).html(parseInt(prodUnitPrice) * qtyIncr);                 
+                  $(totalPriceClass).html(parseInt(prodUnitPrice) * qtyIncr);
                 }
                 else if (cartQuantityAction === "decrement-quantity") {
                   console.log("decrement");
@@ -146,7 +170,7 @@
                     qtyDecr = 1;
                     $(totalPriceClass).html(parseInt(prodUnitPrice) * qtyDecr);
                     $(quantityMsgClass).html('minimum quantity must be 1');
-                  } 
+                  }
                   $(quantityCountClass).html(qtyDecr);
                   $(totalPriceClass).html(parseInt(prodUnitPrice) * qtyDecr);
                 }
@@ -168,9 +192,11 @@
                       headers: {'X-CSRFToken': $.cookie("csrftoken")},
                       success: function() {
                         console.log("success");
+                        $(quantityMsgClass).html('update quantity successful ');
                       },
                       error: function() {
                         console.log("error");
+                        $(quantityMsgClass).html('error while updating... ');
                       },
                   });
                 }

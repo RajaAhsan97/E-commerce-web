@@ -1,0 +1,43 @@
+
+.customers-cart{
+    margin-top: 10px;
+}
+
+.customers-cart-pdf-detail {
+    background-color: gainsboro;
+    border: 1px solid black;
+    margin-top: 5px;
+    border-radius: 10px;
+    width: 80%;
+    border: collapse;
+}
+
+.customers-cart-pdf-detail .head {
+    font-weight: bold;
+}
+
+.customers-cart-pdf-detail .detail {
+    border-left: 1px solid black;
+    padding-left: 5px;
+}
+
+.customers-cart-pdf-prod-detail {
+    margin-top: 5px;
+    border: 1px solid black;
+    text-align: center;
+    width: 100%;
+    border: collapse;
+}
+
+.customers-cart-pdf-prod-detail .thead {
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.customers-cart-pdf-prod-detail td {
+    border-bottom: 1px solid black;
+}
+
+.total-price {
+    display: flex;
+}

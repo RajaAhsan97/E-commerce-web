@@ -3,29 +3,41 @@
 {% block title %}  {% endblock %}
 
 {% block content %}
+    {% if cart %}
     <div class="container text-center mt-5 cart">
-        <div class="row row-cols-5" style="border-radius: 20px; background-color: dodgerblue;">
+        {% if cart.payment_status != "Not Paid" %}
+        <div class="text-end">
+            <strong> Customer_ID: </strong> {{cart.customer_id}}
+        </div>
+        {% endif %}
+        <div class="row row-cols-7" style="border-radius: 20px; background-color: dodgerblue;">
             <div class="col" style="border-right:1px solid black;">
-                <h5> Product </h5>
-            </div>
-            <div class="col" style="border-right:1px solid black;"> 
-                <h5> Quantity </h5>
-            </div>
-            <div class="col" style="border-right:1px solid black;"> 
-                <h5> Unit Price </h5>
+                <h6> Product </h6>
             </div>
             <div class="col" style="border-right:1px solid black;">
-                <h5> Remove cart </h5>
+                <h6> Quantity </h6>
+            </div>
+            <div class="col" style="border-right:1px solid black;">
+                <h6> Unit Price </h6>
+            </div>
+            <div class="col" style="border-right:1px solid black;">
+                <h6> Remove cart </h6>
+            </div>
+            <div class="col" style="border-right:1px solid black;">
+                <h6> Total Price </h6>
+            </div>
+            <div class="col" style="border-right:1px solid black;">
+                <h6> Payment Status </h6>
             </div>
             <div class="col">
-                <h5> Total Price </h5>
+                <h6> Shipment Status </h6>
             </div>
         </div>
-        
+
         {% for product in products %}
         {% with p=products_cart|index:forloop.counter0 %}
         {% with count=forloop.counter0|stringformat:"s" %}
-        <div class="row row-cols-5 mt-3 p-3">
+        <div class="row row-cols-7 mt-3 p-3">
             {% with prod="product-"|add:count %}
             <div class="col {{prod}}" style="border-bottom:1px solid black;">
                 {{product.product_name}}
@@ -44,14 +56,14 @@
                             <button class="{{incr_quantity}}" style="border: none;">
                                 <img src="/media/icons/arrow-top-direction-green-icon.svg">
                             </button>
-                        </div> 
+                        </div>
                         {% endwith %}
                         {% with decr_quantity="decrement-quantity-"|add:count %}
                         <div>
                             <button class="{{decr_quantity}}" style="border: none;">
                                 <img src="/media/icons/arrow-bottom-direction-red-icon.svg">
                             </button>
-                        </div> 
+                        </div>
                         {% endwith %}
                     </div>
                     {% with update_qty="update-quantity-"|add:count %}
@@ -80,16 +92,37 @@
             <div class="col {{tot_price}}" style="border-bottom:1px solid black;">
                 {{p.total_price}}
             </div>
+            <div class="col" style="border-bottom:1px solid black;">
+                {% if cart.payment_status == "Not Paid" %}
+                    <img src="/media/icons/wrong-icon.svg">
+                {% else %}
+                    <img src="/media/icons/correct-icon.svg">
+                {% endif %}
+            </div>
+            <div class="col" style="border-bottom:1px solid black;">
+                {% if cart.shipment_status == "payment pending" %}
+                    ---
+                {% elif cart.shipment_status == "In progress" %}
+                    <img src="/media/icons/delivery-truck-icon.svg">
+                {% elif cart.shipment_status == "Delivered" %}
+                    <img src="/media/icons/truck-delivered-icon.svg">
+                {% endif %}
+            </div>
             {% endwith %}
         </div>
         {% endwith %}
         {% endwith %}
-        {% endfor %} 
+        {% endfor %}
     </div>
 
     <div class="container text-end mt-2 checkout">
-        <a href="">
+        <a href="{% url 'visitors_view:checkout-process' %}">
             Checkout
         </a>
     </div>
+    {% else %}
+    <div class="container text-center">
+        No carts
+    </div>
+    {% endif %}
 {% endblock %}

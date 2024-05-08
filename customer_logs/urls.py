@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import webhooks
 
 app_name = "visitors_view"
 
@@ -15,8 +16,12 @@ urlpatterns = [
 
     path('update-cart/', views.UpdateCart, name='cart-update'),
 
-    # path('checkout/', views.Checkout, name='checkout'),
+    path('process/', views.Checkout, name='checkout-process'),
 
-    path('success/', views.CheckoutSuccess, name='checkout-success'),
+    path('webhook/', webhooks.stripe_payment_webhook, name='stripe-webhook'),
+
+    path('completed/', views.CheckoutSuccess, name='checkout-success'),
     path('canceled/', views.CheckoutCancel, name='checkout-cancel'),
+
+
 ]

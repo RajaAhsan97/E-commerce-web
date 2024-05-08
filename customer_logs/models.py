@@ -7,13 +7,15 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.customer_name
-    
+
 class Cart(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
     phone_no = models.CharField(max_length=20)
     customer_id = models.CharField(max_length=200)
+    payment_status = models.CharField(max_length=20, default="Not Paid")
+    shipment_status = models.CharField(max_length=20, default="payment pending")
 
     def __str__(self):
         return self.customer_id

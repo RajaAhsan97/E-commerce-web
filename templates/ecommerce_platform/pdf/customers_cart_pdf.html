@@ -1,0 +1,79 @@
+{% load productIndex %}
+<html>
+    <body>
+        <div class="container">
+            <h4> Customers Cart </h4>
+        </div>
+        {% for customer in customers %}
+        <div class="container mt-5 customers-cart">
+            <div class="row row-cols-2">
+                <div class="col-2">
+                    {{forloop.counter}}#  {{customer.name}}
+                </div>
+                <div class="col-5">
+                    Customer ID: {{customer.customer_id}}
+                </div>
+            </div>
+
+            <table class="customers-cart-pdf-detail">
+                <tr>
+                    <td class="head"> Email: </td>
+                    <td class="detail"> {{customer.email}} </td>
+                </tr>
+                <tr>
+                    <td class="head"> Address: </td>
+                    <td class="detail"> {{customer.address}} </td>
+                </tr>
+                <tr>
+                    <td class="head"> Phone:</td>
+                    <td class="detail"> {{customer.phone_no}} </td>
+                </tr>
+                <tr>
+                    <td class="head"> Payment Status: </td>
+                    <td class="detail"> {{customer.payment_status}} </td>
+                </tr>
+                <tr>
+                    <td class="head"> Shipment Status </td>
+                    <td class="detail"> {{customer.shipment_status}} </td>
+                </tr>
+            </table>
+
+            <table class="customers-cart-pdf-prod-detail">
+                <thead>
+                    <th>S.no</th>
+                    <th>Product</th>
+                    <th>Unit Price</th>
+                    <th>Qty</th>
+                    <th>Total Price</th>
+                </thead>
+                <tbody>
+                    {% for cart in customer.customer_cart.all %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>
+                            {% with product=cart|productIndex:cart.product %}
+                                {{product}}
+                            {% endwith %}
+                        </td>
+                        <td> {{cart.unit_price}} </td>
+                        <td> {{cart.quantity}} </td>
+                        <td> {{cart.total_price}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="total-price">
+                <div>
+                    Net Price:
+                </div>
+                <div>
+                    {% with price=customer.customer_cart.all|calc_price:customer %}
+                    {{price}}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </body>
+</html>

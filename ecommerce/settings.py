@@ -7,7 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/5.0/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/5.0/ref/settings/ 
+https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
@@ -32,7 +32,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.pythonanywhere.com']
 
 
 # Application definition
@@ -126,10 +126,11 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, "static/")
-STATICFILES_DIRS = [
-    'static',
-]
+STATIC_ROOT = BASE_DIR / 'static'
+os.path.join(BASE_DIR, "static/")
+# STATICFILES_DIRS = [
+#     'static',
+# ]
 MEDIA_URL = 'media/'
 MEDIA_ROOT = 'media/'
 
@@ -141,4 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # STRIPE PAYMENT
 STRIPE_PUBLISHABLE_KEY = os.environ['STRIPE_PUBLISHABLE_KEY']
-STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY'] 
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+
+STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']

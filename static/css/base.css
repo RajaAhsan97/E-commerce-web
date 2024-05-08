@@ -14,13 +14,13 @@
 }
 
 .home-page .categories > .categories-grid, .products > .product-grid {
-    border-radius: 30px; 
-    background-color: rgb(230, 229, 229); 
+    border-radius: 30px;
+    background-color: rgb(230, 229, 229);
     height: 200px;
 }
 
 .categories-grid>hr {
-    background-color: red; 
+    background-color: red;
     height: 10px;
     border: none;
 }
@@ -28,7 +28,7 @@
 .categories-grid h4 {
     font-weight: bold;
     font-style: italic;
-    color: rgb(140, 140, 214);   
+    color: rgb(140, 140, 214);
 }
 
 /* Admin panel styling and actions */
@@ -53,14 +53,14 @@
 }
 
 .Admin-view .category-items-display, .Admin-view .product-items-display {
-    border: 1px solid gray; 
+    border: 1px solid gray;
     border-radius: 30px;
     background-image: radial-gradient(circle, rgb(69, 145, 69), rgb(115, 160, 115) , rgb(231, 233, 231));
 }
 
 .Admin-view .category-items-display > .category-name, .Admin-view .product-items-display > .product-name {
     font-weight: bold;
-    font-size: 18px;   
+    font-size: 18px;
 }
 
 .Admin-view .product-specs {
@@ -71,13 +71,13 @@
 }
 
 .Admin-view .product-specs .product-specs-show {
-    display: flex; 
+    display: flex;
     justify-content:space-around;
 }
 
 .Admin-view .product-specs .product-specs-show .spec-type, .Admin-view .product-specs .product-specs-show .spec-value {
     font-style: bold;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .create-category, .create-product, .create-product-specs {
@@ -104,7 +104,7 @@
 .create-product-specs .spec-heading-2 {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    background-color: yellow; 
+    background-color: yellow;
 }
 
 .signup, .login{

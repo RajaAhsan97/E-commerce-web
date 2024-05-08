@@ -1,19 +1,28 @@
 from datetime import datetime
+from django.conf import settings
+from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.http import request, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.forms import formset_factory
 from .forms import RegisterationForm, LoginForm, ProductAddForm, CategoryCreateForm, ProductSpecsAddForm
 from .models import Category, Product, ProductSpecifications
-
-from customer_logs.models import Customer
+from customer_logs.models import Customer, Cart, CartProducts
+import weasyprint
+from django.template.loader import render_to_string
 
 def homeView(request):
     categories = Category.objects.all()
     print("session: ", request.user)
     admin_name = request.user.username
+
+    customer = Cart.objects.filter(name=admin_name).first()
+    customer_cart = []
+    if customer:
+        customer_cart = customer.customer_cart.all()
+
     return render(request, 'ecommerce_platform/home.html', {'admin': admin_name,
-                                         'categories': categories})
+                                         'categories': categories, "customer_cart": customer_cart})
 
 def RegistrationView(request):
     msg = None
@@ -25,7 +34,7 @@ def RegistrationView(request):
             user.set_password(registerForm.cleaned_data['password'])
             user.save()
 
-            # save registered customer to customer model  
+            # save registered customer to customer model
             Customer.objects.create(customer_name=registerForm.cleaned_data['username'],
                                     email=registerForm.cleaned_data['email'])
 
@@ -91,12 +100,12 @@ def CreateCategory(request):
 
             category_obj = Category.objects.create(category_name=cd['category_name'], image=cd['image'])
             category_obj.save()
-            
+
             return redirect('admin-panel', admin_name)
     else:
         CategoryForm = CategoryCreateForm()
-    
-    return render(request, 'ecommerce_platform/admin/actions/category_create.html', {'admin': admin_name, 
+
+    return render(request, 'ecommerce_platform/admin/actions/category_create.html', {'admin': admin_name,
                                                                   'form': CategoryForm})
 
 def DeleteCategory(request, category_id):
@@ -114,7 +123,7 @@ def Products(request, category_name):
         last_added_product_time = category_products.last().created
         current_time = datetime.now()
         time_diff = current_time - last_added_product_time
-    
+
         if time_diff.seconds < 7:
             recent_product = category_products.last()
 
@@ -169,7 +178,7 @@ def ProductAdd(request, category_name):
 def ProductSpecs(request, product_category, product_id):
     admin_name = request.user.username
     product = Product.objects.get(pk=product_id)
-    SpecForm = formset_factory(ProductSpecsAddForm, extra=1) 
+    SpecForm = formset_factory(ProductSpecsAddForm, extra=1)
     if request.method == "POST":
         productSpecForm = SpecForm(request.POST)
 
@@ -195,3 +204,32 @@ def ProductSpecs(request, product_category, product_id):
     return render(request, 'ecommerce_platform/admin/actions/product_specs_add.html', {'formset': productSpecForm,
                                                                     'product': product,
                                                                     'admin': admin_name})
+
+def CustomersCart(request):
+    admin = request.user.username
+    customers = Cart.objects.all()
+
+    products = Product.objects.all()
+
+    return render(request, 'ecommerce_platform/admin/customers_cart.html', {'customers': customers, 'products': products, 'admin': admin})
+
+def DeliveryStatus(request):
+    customer_id = request.POST.getlist("customer")
+    customer_id = int(customer_id[0])
+
+    cart_obj = Cart.objects.filter(pk=customer_id).first()
+    cart_obj.shipment_status = "Delivered"
+    cart_obj.save()
+
+    return redirect('customers-cart')
+
+def CustomersCartPDFPrint(request):
+    # print_url = request.build_absolute_uri(reverse('customers-cart'))
+
+    customers = Cart.objects.all()
+    html = render_to_string('ecommerce_platform/pdf/customers_cart_pdf.html', {'customers': customers})
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=customers_carts.pdf'
+    weasyprint.HTML(string=html).write_pdf(response, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT / 'css/customers_cart_pdf.css')])
+    return response

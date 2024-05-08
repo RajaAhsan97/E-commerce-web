@@ -1,0 +1,9 @@
+{% extends 'ecommerce_platform/base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+    Payment completed
+
+    <a href="{% url "visitors_view:cart-detail" customer %}"> Return to your Cart </a>
+{% endblock %}

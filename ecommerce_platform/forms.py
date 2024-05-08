@@ -16,7 +16,7 @@ class RegisterationForm(forms.ModelForm):
 
         if cd['password'] != cd['password_confirm']:
             raise ValidationError("Your password does not match")
-        
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
@@ -45,4 +45,4 @@ class ProductAddForm(forms.Form):
 
 class ProductSpecsAddForm(forms.Form):
     spec_type = forms.CharField(label="Specification Type", max_length=50)
-    spec_value = forms.CharField(label="Specification Value", max_length=50)
+    spec_value = forms.CharField(label="Specification Value", max_length=500)
