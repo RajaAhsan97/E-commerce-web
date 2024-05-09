@@ -1,0 +1,99 @@
+{% extends 'ecommerce_platform/base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="container-fluid text-center">
+            <a href="{% url 'delete-cart' %}"> Delete all </a>
+        </div>
+        {% for cart in carts %}
+        <div class="container-fluid mt-4">
+            <div class="container-fluid text_center">
+                <a href="{% url 'delete-cart' cart.id %}"> Delete </a>
+            </div>
+            <div class="row row-cols-8">
+                <div class="col-1"> ID </div>
+                <div class="col-1"> Name </div>
+                <div class="col-1"> Email </div>
+                <div class="col-1"> Address</div>
+                <div class="col-1"> Phone no</div>
+                <div class="col-1"> Customer id</div>
+                <div class="col-1"> Payment Status</div>
+                <div class="col-1"> Shipment Status</div>
+            </div>
+
+            <div class="row row-cols-8">
+                <div class="col-1">
+                    {{cart.id}}
+                </div>
+                <div class="col-1">
+                    {{cart.name}}
+                </div>
+                <div class="col-1">
+                    {{cart.email}}
+                </div>
+                <div class="col-1">
+                    {{cart.address}}
+                </div>
+                <div class="col-1">
+                    {{cart.phone_no}}
+                </div>
+                <div class="col-1">
+                    {{cart.customer_id}}
+                </div>
+                <div class="col-1">
+                    {{cart.payment_status}}
+                </div>
+                <div class="col-1">
+                    {{cart.shipment_status}}
+                </div>
+            </div>
+
+            <div class="container mt-2">
+                {% for cart_product in cart.customer_cart.all %}
+                {% if forloop.counter == 1 %}
+                <div class="row row-cols-5">
+                    <div class="col-1">
+                        ID
+                    </div>
+                    <div class="col-1">
+                        Product
+                    </div>
+                    <div class="col-1">
+                        Qty
+                    </div>
+                    <div class="col-1">
+                        Unit Price
+                    </div>
+                    <div class="col-1">
+                        Total price
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="row row-cols-5">
+                    <div class="col-1">
+                        {{cart_product.id}}
+                    </div>
+                    <div class="col-1">
+                        {{cart_product.product}}
+                    </div>
+                    <div class="col-5">
+                        {{cart_product.quantity}}
+                    </div>
+                    <div class="col-1">
+                        {{cart_product.unit_price}}
+                    </div>
+                    <div class="col-1">
+                        {{cart_product.total_price}}
+                    </div>
+                </div>
+                {% empty %}
+                    no products in customer cart
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

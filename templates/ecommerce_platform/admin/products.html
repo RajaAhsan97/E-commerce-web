@@ -6,9 +6,9 @@
 {% block content %}
     <div class="container mt-5 Admin-view">
         <div class="action text-center">
-            <a href="{% url 'admin-panel' admin %}"> 
+            <a href="{% url 'admin-panel' admin %}">
                 <img src="/media/icons/return-svgrepo-com.svg">
-                Return to Panel 
+                Return to Panel
             </a>
         </div>
 
@@ -20,9 +20,9 @@
                     </div>
                 </div>
                 <div class="col text-center action">
-                    <a href="{% url 'admin-panel-product-add' category.category_name %}"> 
+                    <a href="{% url 'admin-panel-product-add' category.category_name %}">
                         <img src="/media/icons/addition-color-icon.svg">
-                        Add product 
+                        Add product
                     </a>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         <p class="productAddStatus"> Product {{recent_product.product_name}} added to Category {{recent_product.category.category_name}} </p>
                     </div>
                     <div class="col text-end">
-                        <span>  
+                        <span>
                             <button onClick="remove()" style="background-color: pink; border: None;"> x </button>
                         </span>
                     </div>
@@ -45,32 +45,32 @@
 
         {% if products %}
             <div class="container text-center mt-5">
-                <div class="row row-cols-3 g-2">
+                <div class="row g-2">
                     {% for product in products %}
-                        <div class="col product-items-display">
+                        <div class="col-xs-1 col-md-3 product-items-display">
                             <div class="p-3">
-                                {% thumbnail product.image 200x200 upscale as img %}
+                                {% thumbnail product.image 100x0 upscale as img %}
                                 <a href="{% url 'admin-panel-product-detail' product.id %}">
                                     <img src="{{img.url}}" width="{{img.width}}" height="{{img.height}}">
                                 </a>
                             </div>
                             <div class="text-center product-name"> {{product.product_name}} </div>
                             <div class="action-delete text-center">
-                                <a href="{% url 'delete-product' product.id %}"> 
+                                <a href="{% url 'delete-product' product.id %}">
                                     <img src="/media/icons/icons8-delete-button.svg">
                                     Delete Product
                                 </a>
-                            </div>                           
+                            </div>
                                 {% comment %} add/edit product specs {% endcomment %}
                                 {% comment %} <div style="display: flex; justify-content: space-between;">
-                                    <div style="text-align: center;"> 
+                                    <div style="text-align: center;">
                                         <a href="{% url 'admin-panel-product-specs' product.category product.id %}">
-                                            Add Specs 
+                                            Add Specs
                                         </a>
                                     </div>
                                     <div style="text-align: center;">
                                         <a href="{% url 'admin-panel-product-specs-add' product.category product.id %}">
-                                            Edit Specs 
+                                            Edit Specs
                                         </a>
                                     </div>
                                 </div> {% endcomment %}
@@ -79,8 +79,8 @@
                 </div>
             </div>
         {% else %}
-            <div class="text-center mt-5"> 
-                No products for this category 
+            <div class="text-center mt-5">
+                No products for this category
             </div>
         {% endif %}
     </div>

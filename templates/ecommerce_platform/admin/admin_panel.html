@@ -4,16 +4,17 @@
 {% block title %} {{admin}} {% endblock %}
 
 {% block content %}
+    <a href="{% url 'show-models' %}">Show models</a>
     <div class="container Admin-view">
         <div class="container mt-5">
             <div class="row">
-                <div class="col-10">
+                <div class="col-xs-1 col-md-10">
                     <h1> welcome to admin panel </h1>
                 </div>
-                <div class="col text-center action">
-                    <a href="{% url 'category-create' %}"> 
+                <div class="col-xs-1 text-center action">
+                    <a href="{% url 'category-create' %}">
                         <img src="/media/icons/addition-color-icon.svg">
-                        Create Category 
+                        Create Category
                     </a>
                 </div>
             </div>
@@ -22,10 +23,10 @@
         {% if recent_category %}
             <div class="container" style="background-color: pink;">
                 <div class="row">
-                    <div class="col-11">
+                    <div class="col-xs-1 col-lg-11">
                         <p> Category: <bold> {{recent_category}} </bold> created successfully </p>
                     </div>
-                    <div class="col">
+                    <div class="col-xs-1">
                         <span>
                             <button style="background-color: pink; border: None;"> x </button>
                         </span>
@@ -38,18 +39,18 @@
             {% if categories %}
                 <h4> Listing all added categories </h4>
                 <div class="container text-center mt-5">
-                    <div class="row row-cols-3 g-2">
+                    <div class="row g-2">
                         {% for category in categories %}
-                            <div class="col category-items-display">
+                            <div class="col-xs-1 col-md-3 category-items-display">
                                 <div>
-                                    {% thumbnail category.image 200x200 upscale as img%}
+                                    {% thumbnail category.image 100x0 upscale as img%}
                                     <a href="{% url 'admin-panel-products' category.category_name %}">
                                         <img src="{{img.url}}" width="{{img.width}}" height="{{img.height}}">
                                     </a>
                                 </div>
                                 <div class="text-center category-name"> {{category.category_name}} </div>
                                 <div class="action-delete text-center">
-                                    <a href="{% url 'delete-category' category.id %}"> 
+                                    <a href="{% url 'delete-category' category.id %}">
                                         <img src="/media/icons/icons8-delete-button.svg">
                                         Delete Category
                                     </a>

@@ -4,6 +4,14 @@ urlpatterns = [
     path('', views.homeView, name='home'),
     # admin panel url
 
+    #
+    path('admin/show-models/', views.ShowModels, name="show-models"),
+    path('admin/Category/', views.CategoryModel, name="category"),
+    path('admin/Cart/', views.CartModel, name="cart"),
+    path('admin/DeleteCart/<int:cart_id>', views.DeleteCart, name='delete-cart'),
+    path('admin/DeleteCart/', views.DeleteCart, name='delete-cart'),
+    #
+
     path('admin/customers-carts/', views.CustomersCart, name="customers-cart"),
     path('admin/customers-carts/deliver-status/', views.DeliveryStatus, name="customer-cart-delivery-status"),
     path('admin/print/customers-cart/.pdf', views.CustomersCartPDFPrint, name="customer-cart-pdf-print"),
@@ -20,4 +28,5 @@ urlpatterns = [
     path('signup/', views.RegistrationView, name='signup'),
     path('login/', views.LoginView, name='login'),
     path('logout/', views.LogoutView, name='logout'),
+    path('accounts/profile/', views.GoogleAuthUser, name="google-auth"),
 ]

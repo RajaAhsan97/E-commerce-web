@@ -11,6 +11,7 @@ from customer_logs.models import Customer, Cart, CartProducts
 import weasyprint
 from django.template.loader import render_to_string
 
+
 def homeView(request):
     categories = Category.objects.all()
     print("session: ", request.user)
@@ -44,6 +45,10 @@ def RegistrationView(request):
     else:
         registerForm = RegisterationForm()
     return render(request, 'ecommerce_platform/authentication/signup.html', {'form': registerForm, 'error_msg': msg})
+
+def GoogleAuthUser(request):
+    Customer.objects.create(customer_name=request.user.username, email=request.user.email)
+    return redirect('home')
 
 def LoginView(request):
     msg = None
@@ -233,3 +238,27 @@ def CustomersCartPDFPrint(request):
     response['Content-Disposition'] = f'filename=customers_carts.pdf'
     weasyprint.HTML(string=html).write_pdf(response, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT / 'css/customers_cart_pdf.css')])
     return response
+
+#
+def ShowModels(request):
+    return render(request, 'ecommerce_platform/admin/models/show_models.html')
+
+def CategoryModel(request):
+    category = Category.objects.all()
+    return render(request, 'ecommerce_platform/admin/models/cat_model.html', {'category': category})
+
+def CartModel(request):
+    carts = Cart.objects.all()
+    return render(request, 'ecommerce_platform/admin/models/cart_model.html', {'carts': carts})
+
+def DeleteCart(request, cart_id=None):
+    if cart_id == None:
+        cart = Cart.objects.all()
+        cart.delete()
+    else:
+        cart = Cart.objects.get(pk=cart_id)
+        cart.delete()
+
+    return redirect("cart")
+#
+

@@ -1,0 +1,14 @@
+{% extends 'ecommerce_platform/base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+
+    <li>
+        <a href="{% url 'category' %}"> Category </a>
+    </li>
+    <li>
+        <a href="{% url 'cart' %}"> Cart </a>
+    </li>
+
+{% endblock %}

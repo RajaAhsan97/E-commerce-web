@@ -10,12 +10,37 @@
             <strong> Customer_ID: </strong> {{cart.customer_id}}
         </div>
         {% endif %}
-        <div class="row row-cols-7" style="border-radius: 20px; background-color: dodgerblue;">
+        <div class="container text-end">
+            <div>
+                <h6> Payment Status:
+                    {% if cart.payment_status == "Not Paid" %}
+                        <img src="/media/icons/wrong-icon.svg">
+                    {% else %}
+                        <img src="/media/icons/correct-icon.svg">
+                    {% endif %}
+                </h6>
+            </div>
+        </div>
+        <div class="container text-end">
+            <div class="col">
+                <h6> Shipment Status:
+                    {% if cart.shipment_status == "payment pending" %}
+                        ---
+                    {% elif cart.shipment_status == "In progress" %}
+                        <img src="/media/icons/delivery-truck-icon.svg">
+                    {% elif cart.shipment_status == "Delivered" %}
+                        <img src="/media/icons/truck-delivered-icon.svg">
+                    {% endif %}
+                </h6>
+            </div>
+        </div>
+
+        <div class="row row-cols-5" style="border-radius: 20px; background-color: dodgerblue;">
             <div class="col" style="border-right:1px solid black;">
                 <h6> Product </h6>
             </div>
             <div class="col" style="border-right:1px solid black;">
-                <h6> Quantity </h6>
+                <h6> Qty </h6>
             </div>
             <div class="col" style="border-right:1px solid black;">
                 <h6> Unit Price </h6>
@@ -23,57 +48,68 @@
             <div class="col" style="border-right:1px solid black;">
                 <h6> Remove cart </h6>
             </div>
-            <div class="col" style="border-right:1px solid black;">
-                <h6> Total Price </h6>
-            </div>
-            <div class="col" style="border-right:1px solid black;">
-                <h6> Payment Status </h6>
-            </div>
             <div class="col">
-                <h6> Shipment Status </h6>
+                <h6> Total Price </h6>
             </div>
         </div>
 
         {% for product in products %}
         {% with p=products_cart|index:forloop.counter0 %}
         {% with count=forloop.counter0|stringformat:"s" %}
-        <div class="row row-cols-7 mt-3 p-3">
+        <div class="row row-cols-5 mt-3 p-3">
             {% with prod="product-"|add:count %}
             <div class="col {{prod}}" style="border-bottom:1px solid black;">
                 {{product.product_name}}
             </div>
             {% endwith %}
-            <div class="col" style="border-bottom:1px solid black;">
-                <div class="row">
+            <div class="col text-center" style="border-bottom:1px solid black;">
+                <div style="display: flex;">
                     {% with quantity="quantity-"|add:count %}
-                    <div class="col-3 text-center {{quantity}}" style="border: 1px solid black; border-radius: 10px;">
+                    <div class="{{quantity}}" style="border: 1px solid black; border-radius: 10px;">
                         {{p.quantity}}
                     </div>
                     {% endwith %}
-                    <div class="col-1">
-                        {% with incr_quantity="increment-quantity-"|add:count %}
+                    <div>
                         <div>
+                            {% with incr_quantity="increment-quantity-"|add:count %}
                             <button class="{{incr_quantity}}" style="border: none;">
                                 <img src="/media/icons/arrow-top-direction-green-icon.svg">
                             </button>
+                            {% endwith %}
                         </div>
-                        {% endwith %}
-                        {% with decr_quantity="decrement-quantity-"|add:count %}
                         <div>
+                            {% with decr_quantity="decrement-quantity-"|add:count %}
                             <button class="{{decr_quantity}}" style="border: none;">
                                 <img src="/media/icons/arrow-bottom-direction-red-icon.svg">
                             </button>
+                            {% endwith %}
                         </div>
-                        {% endwith %}
                     </div>
-                    {% with update_qty="update-quantity-"|add:count %}
-                    <div class="col-1">
-                        <button class="{{update_qty}}" style="border: none;">
-                            Update
-                        </button>
-                    </div>
-                    {% endwith %}
+                    <!--<div class="col-1">-->
+                    <!--    {% with incr_quantity="increment-quantity-"|add:count %}-->
+                    <!--    <div>-->
+                    <!--        <button class="{{incr_quantity}}" style="border: none;">-->
+                    <!--            <img src="/media/icons/arrow-top-direction-green-icon.svg">-->
+                    <!--        </button>-->
+                    <!--    </div>-->
+                    <!--    {% endwith %}-->
+                    <!--    {% with decr_quantity="decrement-quantity-"|add:count %}-->
+                    <!--    <div>-->
+                    <!--        <button class="{{decr_quantity}}" style="border: none;">-->
+                    <!--            <img src="/media/icons/arrow-bottom-direction-red-icon.svg">-->
+                    <!--        </button>-->
+                    <!--    </div>-->
+                    <!--    {% endwith %}-->
+                    <!--</div>-->
                 </div>
+                {% with update_qty="update-quantity-"|add:count %}
+                <div class="mt-1">
+                    <button class="{{update_qty}}" style="border: none;">
+                        Update
+                    </button>
+                </div>
+                {% endwith %}
+
                 {% with qty_msg="quantity-message-"|add:count %}
                 <div class="{{qty_msg}} mt-1" style="background-color: pink; font-size:12px; font-style: italic; border-radius: 10px;"> </div>
                 {% endwith %}
@@ -91,22 +127,6 @@
             {% with tot_price="total-price-"|add:count %}
             <div class="col {{tot_price}}" style="border-bottom:1px solid black;">
                 {{p.total_price}}
-            </div>
-            <div class="col" style="border-bottom:1px solid black;">
-                {% if cart.payment_status == "Not Paid" %}
-                    <img src="/media/icons/wrong-icon.svg">
-                {% else %}
-                    <img src="/media/icons/correct-icon.svg">
-                {% endif %}
-            </div>
-            <div class="col" style="border-bottom:1px solid black;">
-                {% if cart.shipment_status == "payment pending" %}
-                    ---
-                {% elif cart.shipment_status == "In progress" %}
-                    <img src="/media/icons/delivery-truck-icon.svg">
-                {% elif cart.shipment_status == "Delivered" %}
-                    <img src="/media/icons/truck-delivered-icon.svg">
-                {% endif %}
             </div>
             {% endwith %}
         </div>

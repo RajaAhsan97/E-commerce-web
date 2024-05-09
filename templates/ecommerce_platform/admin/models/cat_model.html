@@ -1,0 +1,75 @@
+{% extends 'ecommerce_platform/base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% for cat in category %}
+        {% if forloop.counter == 1 %}
+        <div class="row row-cols-3">
+            <div class="col-1"> S.no </div>
+            <div class="col-1"> Name </div>
+            <div class="col-3"> Created </div>
+        </div>
+        {% endif %}
+        <div class="row row-cols-3">
+            <div class="col-1">
+                {{forloop.counter}}
+            </div>
+            <div class="col-1">
+                {{cat.category_name}}
+            </div>
+            <div class="col-3">
+                {{cat.created}}
+            </div>
+        </div>
+
+        <div class="container mt-2">
+            {% for product in cat.category_product.all %}
+            {% if forloop.counter == 1 %}
+            <div class="row row-cols-5">
+                <div class="col-1">
+                    S.no.
+                </div>
+                <div class="col-1">
+                    Product Name
+                </div>
+                <div class="col-5">
+                    Description
+                </div>
+                <div class="col-1">
+                    Price
+                </div>
+                <div class="col-1">
+                    Created
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="row row-cols-5">
+                <div class="col-1">
+                    {{forloop.counter}}
+                </div>
+                <div class="col-1">
+                    {{product.product_name}}
+                </div>
+                <div class="col-5">
+                    {{product.description}}
+                </div>
+                <div class="col-1">
+                    {{product.price}}
+                </div>
+                <div class="col-1">
+                    {{product.created}}
+                </div>
+            </div>
+            {% empty %}
+                no products
+            {% endfor %}
+        </div>
+
+        {% empty %}
+            No category
+        {% endfor %}
+    </div>
+{% endblock %}

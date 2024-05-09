@@ -7,7 +7,7 @@
         <div class="text-center p-3 login-head">
             <h3> Log-In </h3>
         </div>
-        
+
         {% if error_msg %}
             <div class="text-center mt-2 login-error">
                 <li> <em> {{error_msg}} </em> </li>
@@ -25,5 +25,8 @@
             </div>
             {% csrf_token %}
         </form>
+
+
+        <a href="{% url 'social:begin' 'google-oauth2' %}"> Sign-in with google </a>
     </div>
 {% endblock %}
