@@ -1,0 +1,101 @@
+{% load index %}
+<!-- edit this file for proper invoice template -->
+<html>
+    <body>
+        <div class="container text-center mt-5 cart">
+            <div class="text-end">
+                <strong> Customer_ID: </strong> {{cart.customer_id}}
+            </div>
+            <div class="container text-end">
+                <div>
+                    <h6> Payment Status:
+                        <img src="/media/icons/correct-icon.svg">
+                    </h6>
+                </div>
+            </div>
+            <div class="container text-end">
+                <div class="col">
+                    <h6> Shipment Status:
+                        <img src="/media/icons/delivery-truck-icon.svg">
+                    </h6>
+                </div>
+            </div>
+
+            <!--<div class="row row-cols-4" style="border-radius: 20px; background-color: dodgerblue;">-->
+            <!--    <div class="col" style="border-right:1px solid black;">-->
+            <!--        <h6> Product </h6>-->
+            <!--    </div>-->
+            <!--    <div class="col" style="border-right:1px solid black;">-->
+            <!--        <h6> Qty </h6>-->
+            <!--    </div>-->
+            <!--    <div class="col" style="border-right:1px solid black;">-->
+            <!--        <h6> Unit Price </h6>-->
+            <!--    </div>-->
+            <!--    <div class="col">-->
+            <!--        <h6> Total Price </h6>-->
+            <!--    </div>-->
+            <!--</div>-->
+
+            {% for product in products %}
+            {% with p=products_cart|index:forloop.counter0 %}
+            {% with count=forloop.counter0|stringformat:"s" %}
+            <div class="row row-cols-4 mt-3 p-3">
+                {% with prod="product-"|add:count %}
+                <div class="col {{prod}}" style="border-bottom:1px solid black;">
+                    {{product.product_name}}
+                </div>
+                {% endwith %}
+                <div class="col text-center" style="border-bottom:1px solid black;">
+                    <div style="display: flex;">
+                        {% with quantity="quantity-"|add:count %}
+                        <div class="{{quantity}}" style="border: 1px solid black; border-radius: 10px;">
+                            {{p.quantity}}
+                        </div>
+                        {% endwith %}
+                        <div>
+                            <div>
+                                {% with incr_quantity="increment-quantity-"|add:count %}
+                                <button class="{{incr_quantity}}" style="border: none;">
+                                    <img src="/media/icons/arrow-top-direction-green-icon.svg">
+                                </button>
+                                {% endwith %}
+                            </div>
+                            <div>
+                                {% with decr_quantity="decrement-quantity-"|add:count %}
+                                <button class="{{decr_quantity}}" style="border: none;">
+                                    <img src="/media/icons/arrow-bottom-direction-red-icon.svg">
+                                </button>
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                    {% with update_qty="update-quantity-"|add:count %}
+                    <div class="mt-1">
+                        <button class="{{update_qty}}" style="border: none;">
+                            Update
+                        </button>
+                    </div>
+                    {% endwith %}
+
+                    {% with qty_msg="quantity-message-"|add:count %}
+                    <div class="{{qty_msg}} mt-1" style="background-color: pink; font-size:12px; font-style: italic; border-radius: 10px;"> </div>
+                    {% endwith %}
+                </div>
+                {% with unit_price="unit-price-"|add:count %}
+                <div class="col {{unit_price}}" style="border-bottom:1px solid black;">
+                    {{p.unit_price}}
+                </div>
+                {% endwith %}
+
+                {% with tot_price="total-price-"|add:count %}
+                <div class="col {{tot_price}}" style="border-bottom:1px solid black;">
+                    {{p.total_price}}
+                </div>
+                {% endwith %}
+            </div>
+            {% endwith %}
+            {% endwith %}
+            {% endfor %}
+        </div>
+    </body>
+</html>

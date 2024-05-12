@@ -4,7 +4,6 @@
 {% block title %} {{admin}} {% endblock %}
 
 {% block content %}
-    <a href="{% url 'show-models' %}">Show models</a>
     <div class="container Admin-view">
         <div class="container mt-5">
             <div class="row">
@@ -38,6 +37,12 @@
         <div>
             {% if categories %}
                 <h4> Listing all added categories </h4>
+                <div class="container text-end">
+                    <form action="{% url 'search-category' %}">
+                        <input type="search" name="search_category" placeholder="Search for category">
+                        <input type="button" value="Search">
+                    </form>
+                </div>
                 <div class="container text-center mt-5">
                     <div class="row g-2">
                         {% for category in categories %}

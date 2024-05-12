@@ -12,7 +12,7 @@ import weasyprint
 from django.template.loader import render_to_string
 
 
-def homeView(request):
+def homeView(request, search_not_found=None):
     categories = Category.objects.all()
     print("session: ", request.user)
     admin_name = request.user.username
@@ -23,7 +23,7 @@ def homeView(request):
         customer_cart = customer.customer_cart.all()
 
     return render(request, 'ecommerce_platform/home.html', {'admin': admin_name,
-                                         'categories': categories, "customer_cart": customer_cart})
+                                         'categories': categories, "customer_cart": customer_cart, "home_tab": True})
 
 def RegistrationView(request):
     msg = None
@@ -47,7 +47,9 @@ def RegistrationView(request):
     return render(request, 'ecommerce_platform/authentication/signup.html', {'form': registerForm, 'error_msg': msg})
 
 def GoogleAuthUser(request):
-    Customer.objects.create(customer_name=request.user.username, email=request.user.email)
+    customer = Customer.objects.filter(customer_name=request.user.username, email=request.user.email)
+    if customer == None:
+        Customer.objects.create(customer_name=request.user.username, email=request.user.email)
     return redirect('home')
 
 def LoginView(request):
@@ -93,6 +95,18 @@ def Admin(request, admin_name):
     return render(request, 'ecommerce_platform/admin/admin_panel.html', {'admin': admin_name,
                                                       'recent_category': recent_category,
                                                       'categories': categories})
+
+def SearchCategory(request):
+    admin_name = request.user.username
+    search = request.GET.get('search_category')
+    category = Category.objects.filter(category_name=search).first()
+
+    if category:
+        return redirect('admin-panel-products', category.category_name)
+    # else:
+    #     return redirect('admin-panel', admin_name)
+    # return render(request, 'ecommerce_platform/admin/category_search.html', {'admin': admin_name, 'category': category})
+
 
 def CreateCategory(request):
     print("Category create function executed...")
@@ -238,27 +252,3 @@ def CustomersCartPDFPrint(request):
     response['Content-Disposition'] = f'filename=customers_carts.pdf'
     weasyprint.HTML(string=html).write_pdf(response, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT / 'css/customers_cart_pdf.css')])
     return response
-
-#
-def ShowModels(request):
-    return render(request, 'ecommerce_platform/admin/models/show_models.html')
-
-def CategoryModel(request):
-    category = Category.objects.all()
-    return render(request, 'ecommerce_platform/admin/models/cat_model.html', {'category': category})
-
-def CartModel(request):
-    carts = Cart.objects.all()
-    return render(request, 'ecommerce_platform/admin/models/cart_model.html', {'carts': carts})
-
-def DeleteCart(request, cart_id=None):
-    if cart_id == None:
-        cart = Cart.objects.all()
-        cart.delete()
-    else:
-        cart = Cart.objects.get(pk=cart_id)
-        cart.delete()
-
-    return redirect("cart")
-#
-

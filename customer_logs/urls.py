@@ -5,6 +5,7 @@ from . import webhooks
 app_name = "visitors_view"
 
 urlpatterns = [
+    path("search/", views.Search, name="search-product"),
     path("product-view/<int:category_id>", views.ProductView, name="products-view"),
     path("product-detail/<int:product_id>", views.ProductDetail, name='product-detail-view'),
 

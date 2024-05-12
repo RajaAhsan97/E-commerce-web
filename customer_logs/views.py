@@ -2,6 +2,7 @@
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.http import request, JsonResponse, HttpResponse
+from django.db.models import Q
 from .models import Customer, Cart, CartProducts
 from ecommerce_platform.models import Category, Product, ProductSpecifications
 from .forms import CartForm
@@ -11,6 +12,16 @@ import stripe
 from decimal import Decimal
 
 # Create your views here.
+
+def Search(request):
+    search_category = request.GET.get('search')
+    category = Category.objects.filter(Q(category_name__icontains=search_category)).first()
+    if category == None:
+        # search_error = "No result for your search"
+        return redirect('home')
+    else:
+        return redirect('visitors_view:products-view', category.id)
+
 def ProductView(request, category_id):
     category = Category.objects.get(pk=category_id)
     products = category.category_product.all()

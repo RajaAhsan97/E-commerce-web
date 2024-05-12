@@ -3,7 +3,12 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-from .models import Cart
+from django.core.mail import EmailMessage
+import weasyprint
+from io import BytesIO
+from django.template.loader import render_to_string
+from .models import Cart, CartProducts
+from ecommerce_platform.models import Product
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -33,5 +38,31 @@ def stripe_payment_webhook(request):
             order.payment_status = "paid"
             order.shipment_status = "In progress"
             order.save()
+
+            # send email to user
+            subject = f'Your cart invoice. {order.customer_id}'
+            message = 'Invoice of your recent purchase'
+            email = EmailMessage(subject, message, 'ecommerceShop@gmail.com', [order.email])
+
+            # generate PDF
+            products_cart = []
+            products = []
+            if order:
+                products_cart = order.customer_cart.all().order_by('product')
+                product_ids = [product.product for product in products_cart]
+                products = Product.objects.filter(pk__in=product_ids)
+
+            html = render_to_string('customer_logs/cart/pdf/cart_detail_pdf.html', {'cart': order, 'products_cart': products_cart, 'products': products,})
+            out = BytesIO()
+            # stylesheets=[weasyprint.CSS(settings.STATIC_ROOT / 'css/pdf.css')]
+            weasyprint.HTML(string=html).write_pdf(out)
+            # stylesheets=stylesheets)
+            # attach PDF file
+            email.attach(f'order_{order.customer_id}.pdf',
+            out.getvalue(),
+            'application/pdf')
+            # send e-mail
+            email.send()
+
 
     return HttpResponse(status=200)
